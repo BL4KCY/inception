@@ -1,0 +1,25 @@
+[mysqld]
+# 1. Define User and Process ID
+user = mysql
+
+pid-file = /var/run/mysqld/mysqld.pid
+
+# 2. Define Port and Socket for Connections
+port = 3306
+
+socket = /run/mysqld/mysqld.sock
+
+bind-address = 0.0.0.0
+
+# 3. Define Data Storage Location
+datadir = /var/lib/mysql
+
+# 4. Set Default Storage Engine (InnoDB Recommended)
+default_storage_engine = InnoDB
+
+# 5. Set Character Encoding (Recommended for Modern Applications)
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+
+# 6. Define Logging (Important for Debugging Issues)
+log_error = /var/log/mysql/error.log
