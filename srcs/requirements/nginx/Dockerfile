@@ -1,15 +1,15 @@
 FROM alpine:3.21
 
-WORKDIR /var/www/html
+WORKDIR /setup
 
-RUN apk update && apk add nginx
+RUN apk update && apk add nginx openssl
 
-COPY ./conf/nginx.conf /etc/nginx/nginx.conf
+COPY conf/default.conf /etc/nginx/http.d/default.conf
 
-# COPY ./website ./website
+COPY tools/setup.sh .
 
-COPY ./tools /etc/ssl/
+RUN sh setup.sh
 
-CMD [ "nginx", "-g", "daemon off;" ]
+ENTRYPOINT [ "nginx", "-g", "daemon off;"]
 
 EXPOSE 80 433

@@ -2,8 +2,6 @@
 
 if [ ! -f wp-config.php ]; then
 	echo "Downloading WordPress..."
-	adduser -D -G www-data www-data
-	chown -R www-data:www-data .
 	curl -O -s https://wordpress.org/latest.tar.gz
 	tar -xzf latest.tar.gz
 	mv wordpress/* .
@@ -24,13 +22,6 @@ if [ ! -f wp-config.php ]; then
 		sed -i "/define( 'AUTH_KEY'/,/define( 'NONCE_SALT'/d" wp-config.php
 		sed -i "/#@-/r /tmp/auth_keys.txt" wp-config.php
 	fi
-
-	echo "configuring php-fpm..."
-
-	sed -i 's|listen = 127.0.0.1:9000|listen = 0.0.0.0:9000|' /etc/php*/php-fpm.d/www.conf
-	sed -i 's|nobody|www-data|' /etc/php*/php-fpm.d/www.conf
-	sed -i 's|;clear_env|clear_env|' /etc/php*/php-fpm.d/www.conf
-
 	rm -f /tmp/auth_keys.txt
 fi
 
