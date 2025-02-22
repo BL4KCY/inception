@@ -1,11 +1,16 @@
 #!/bin/sh
 
-if [ ! -f /etc/ssl/certs/nginx-selfsigned.crt ] || [ ! -f /etc/ssl/private/nginx-selfsigned.key ]; then
-	mkdir -p /etc/ssl/certs /etc/ssl/private
+sed -i "s|\[CERTS_\]|$CERTS_|g" /etc/nginx/http.d/default.conf
+sed -i "s|\[DOMAIN_NAME\]|$DOMAIN_NAME|g" /etc/nginx/http.d/default.conf
+
+if [ ! -f $CERTS_/nginx-selfsigned.crt ] || [ ! -f $CERTS_/private/nginx-selfsigned.key ]; then
+	mkdir -p $CERTS_ $CERTS_/private
 
 	openssl req -x509 -nodes -days 365 \
 	-newkey rsa:2048 \
-	-keyout /etc/ssl/private/nginx-selfsigned.key \
-	-out /etc/ssl/certs/nginx-selfsigned.crt \
-	-subj "/C=MA/ST=RSK/L=SSC/O=1337/OU=42/CN=melfersi"
+	-keyout $CERTS_/private/nginx-selfsigned.key \
+	-out $CERTS_/nginx-selfsigned.crt \
+	-subj "/C=$COUNTRY/ST=$STATE/L=$LOCALITY/O=$ORGANIZATION/OU=$ORGANIZATION_UNIT/CN=$COMMON_NAME"
 fi
+
+nginx -g "daemon off;"
