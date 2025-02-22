@@ -8,8 +8,6 @@ COPY conf/default.conf /etc/nginx/http.d/default.conf
 
 COPY tools/setup.sh .
 
-RUN sh setup.sh
-
-ENTRYPOINT [ "nginx", "-g", "daemon off;"]
+CMD [ "sh", "setup.sh"]
 
 EXPOSE 80 433
