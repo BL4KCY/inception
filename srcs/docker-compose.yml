@@ -13,6 +13,7 @@ services:
       - WordPress
     env_file:
       - .env
+    # restart: always
   WordPress:
     build: ./requirements/wordpress
     image: wordpress-php-fpm
@@ -25,6 +26,7 @@ services:
       - .env
     depends_on:
       - mariadb
+    # restart: always
   mariadb:
     build: ./requirements/mariadb
     image: mariadb
@@ -35,6 +37,7 @@ services:
       - my_network
     env_file:
       - .env
+    # restart: always
 
 volumes:
   wordpressVOL:
