@@ -18,7 +18,6 @@ mariadb -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';"
 
 mariadb -e "FLUSH PRIVILEGES;"
 
+killall mariadbd
 
-while true; do
-	sleep 1;
-done
+mariadbd
