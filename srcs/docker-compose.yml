@@ -38,6 +38,14 @@ services:
     env_file:
       - .env
     # restart: always
+  redis:
+    build: ./requirements/bonus/redis
+    image: redis
+    container_name: my_redis
+    networks:
+      - my_network
+    env_file:
+      - .env
 
 volumes:
   wordpressVOL:

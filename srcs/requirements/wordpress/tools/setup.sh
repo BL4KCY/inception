@@ -1,28 +1,34 @@
-#!/bin/sh
+#!/bin/bash
 
-if [ ! -f wp-config.php ]; then
-	echo "Downloading WordPress..."
-	curl -O -s https://wordpress.org/latest.tar.gz
-	tar -xzf latest.tar.gz
-	mv wordpress/* .
-	rm -rf wordpress latest.tar.gz
+echo 'memory_limit = 256M' >> /etc/php83/php.ini
 
-	curl -s https://api.wordpress.org/secret-key/1.1/salt/ > /tmp/auth_keys.txt
+wp core download --path=/var/www/html --allow-root
 
-	DEFAULT_AUTHEN="define( 'AUTH_KEY',         'put your unique phrase here' );"
+# create wp-config.php
+if [ ! -f /var/www/html/wp-config.php ]; then
+    wp config create    --path=/var/www/html --dbname=$DB_NAME\
+                        --dbuser=$DB_USER --dbpass=$DB_PASSWORD\
+                        --dbhost=$DB_HOST --dbprefix=$DB_PREFIX\
+                        --allow-root --skip-check
 
-	if [ ! -f wp-config.php ]; then
-		echo "Configuring WordPress..."
-		cp wp-config-sample.php wp-config.php
-		sed -i "s|database_name_here|$DB_NAME|g" wp-config.php
-		sed -i "s|username_here|$DB_USER|g" wp-config.php
-		sed -i "s|password_here|$DB_PASSWORD|g" wp-config.php
-		sed -i "s|localhost|$DB_HOST|g" wp-config.php
-		sed -i "s|wp_|$DB_PREFIX|g" wp-config.php
-		sed -i "/define( 'AUTH_KEY'/,/define( 'NONCE_SALT'/d" wp-config.php
-		sed -i "/#@-/r /tmp/auth_keys.txt" wp-config.php
-	fi
-	rm -f /tmp/auth_keys.txt
+    wp config set WP_REDIS_HOST 'my_redis' --allow-root
+
+    wp config set WP_REDIS_PORT '6379' --allow-root
+
+    wp config set WP_CACHE true --allow-root
+
+    wp config set WP_REDIS_SCHEME 'tcp' --allow-root
+fi
+# install wordpress
+if ! $(wp core is-installed --path=/var/www/html --allow-root); then
+    wp core install     --url=https://$DOMAIN_NAME --title=$TITLE\
+                        --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD\
+                        --admin_email=$WP_ADMIN_EMAIL --allow-root
+fi
+# install redis cache plugin
+if ! $(wp plugin is-installed redis-cache --path=/var/www/html --allow-root); then
+    wp plugin install redis-cache --activate --allow-root #bonus
+    wp redis enable --allow-root 
 fi
 
 php-fpm83 -F

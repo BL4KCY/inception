@@ -4,7 +4,7 @@ COPY ./conf /etc/my.cnf.d
 
 WORKDIR /setupDB
 
-RUN apk update && apk add mariadb mariadb-client &&\
+RUN apk update && apk add mariadb mariadb-client bash &&\
 	mkdir -p /var/run/mysqld/ &&\
 	mkdir -p /var/log/mysql &&\
 	chown -R mysql:mysql /var/log/mysql &&\
@@ -14,6 +14,6 @@ RUN	mariadb-install-db --user=mysql
 
 COPY ./tools /setupDB/
 
-CMD [ "sh", "setup-mariadb.sh"]
+CMD [ "bash", "setup-mariadb.sh"]
 
 EXPOSE 3306

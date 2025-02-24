@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 sed -i "s|\[CERTS_\]|$CERTS_|g" /etc/nginx/http.d/default.conf
 sed -i "s|\[DOMAIN_NAME\]|$DOMAIN_NAME|g" /etc/nginx/http.d/default.conf
