@@ -14,6 +14,8 @@ RUN	mariadb-install-db --user=mysql
 
 COPY ./tools /setupDB/
 
+RUN chown -R mysql:mysql /var/lib/mysql
+
 CMD [ "bash", "setup-mariadb.sh"]
 
 EXPOSE 3306
