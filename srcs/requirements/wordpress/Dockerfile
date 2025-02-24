@@ -4,7 +4,7 @@ WORKDIR /var/www/html
 
 COPY tools .
 
-RUN apk add --no-cache php-tokenizer php-mbstring php php-phar php-fpm php-mysqli curl bash
+RUN apk add --no-cache php-redis php-tokenizer php-mbstring php php-phar php-fpm php-mysqli curl bash
 
 RUN	adduser -D -G www-data www-data &&\
 	chown -R www-data:www-data .
