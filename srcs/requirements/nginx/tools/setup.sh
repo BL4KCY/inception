@@ -10,7 +10,7 @@ if [ ! -f $CERTS_/nginx-selfsigned.crt ] || [ ! -f $CERTS_/private/nginx-selfsig
 	-newkey rsa:2048 \
 	-keyout $CERTS_/private/nginx-selfsigned.key \
 	-out $CERTS_/nginx-selfsigned.crt \
-	-subj "/C=$COUNTRY/ST=$STATE/L=$LOCALITY/O=$ORGANIZATION/OU=$ORGANIZATION_UNIT/CN=$COMMON_NAME"
+	-subj "/C=$COUNTRY/ST=$STATE/L=$LOCALITY/O=$ORGANIZATION/OU=$ORGANIZATION_UNIT/CN=$COMMON_NAME" > /dev/null 2>&1
 fi
 
 nginx -g "daemon off;"
