@@ -127,7 +127,7 @@ echo <<<HTML
 </head>
 <body>
     <div class="container">
-        <h1>Prayer Times</h1>
+        <h1>مواقيت الصلاة</h1>
         <form method="GET" action="">
             <select name="ville" onchange="this.form.submit()">
 HTML;
@@ -198,10 +198,11 @@ echo <<<HTML
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
             // Display the countdown
-            console.log(nextPrayer, hours, minutes, seconds);
-            document.getElementById("countdown").innerHTML = \`
-                Next ${nextPrayer}: \${hours}h \${minutes}m \${seconds}s
-            \`;
+            document.getElementById("countdown").innerHTML = 
+                nextPrayer + " بعد " + 
+                String(hours).padStart(2, '0') + ":" + 
+                String(minutes).padStart(2, '0') + ":" + 
+                String(seconds).padStart(2, '0');
         }
 
         // Update the countdown every second
