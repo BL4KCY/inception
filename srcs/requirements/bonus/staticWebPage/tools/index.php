@@ -84,15 +84,15 @@ echo <<<HTML
             background-size: cover;
         }
         .container {
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(150, 99, 99, 0.42);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 15px rgb(235, 235, 235);
             width: 350px;
             text-align: center;
         }
         h1 {
-            color: #333;
+            color: rgba(205, 205, 205, 0.9);
             margin-bottom: 20px;
         }
         .prayer-time {
@@ -106,7 +106,10 @@ echo <<<HTML
         }
         .prayer-time span {
             font-weight: bold;
-            color: #555;
+            /* color: #555; */
+            color: rgb(0, 0, 0);
+            font-weight: bold;
+            font-size: 20px;
         }
         select {
             padding: 10px;
@@ -115,12 +118,13 @@ echo <<<HTML
             border: 1px solid #ddd;
             width: 100%;
             margin-bottom: 20px;
-            background-color: #fff;
+            background-color:  rgba(0, 0, 0, 0.34)
         }
         .countdown {
-            font-size: 24px;
+            font-size: 45px;
             font-weight: bold;
-            color: #333;
+            color: rgba(0, 0, 0, 0.78);
+            /* color: #333; */
             margin-top: 20px;
         }
     </style>
@@ -199,7 +203,7 @@ echo <<<HTML
 
             // Display the countdown
             document.getElementById("countdown").innerHTML = 
-                nextPrayer + " بعد " + 
+                nextPrayer + " بعد " +
                 String(hours).padStart(2, '0') + ":" + 
                 String(minutes).padStart(2, '0') + ":" + 
                 String(seconds).padStart(2, '0');
