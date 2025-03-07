@@ -6,6 +6,6 @@ COPY tools .
 
 RUN apk update && apk add php php-dom php-openssl bash vim
 
-ENTRYPOINT [ "php", "-S", "0.0.0.0:8080"]
+ENTRYPOINT [ "php", "-S", "0.0.0.0:80"]
 
-EXPOSE 8080
+EXPOSE 80

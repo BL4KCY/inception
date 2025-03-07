@@ -49,29 +49,29 @@ services:
     env_file:
       - .env
     restart: always
-  # ftp:
-  #   build: ./requirements/bonus/ftp
-  #   image: ftp
-  #   container_name: my_ftp
-  #   networks:
-  #     - my_network
-  #   ports:
-  #     - 20-21:20-21
-  #     - 60000-60010:60000-60010
-  #   env_file:
-  #     - .env
-  #   volumes:
-  #     - wordpressVOL:/var/www/html
-  #   restart: always
-  # adminer:
-  #   build: ./requirements/bonus/adminer
-  #   image: adminer
-  #   container_name: my_adminer
-  #   networks:
-  #     - my_network
-  #   ports:
-  #     - 8080:8080
-  #   restart: always
+  ftp:
+    build: ./requirements/bonus/ftp
+    image: ftp
+    container_name: my_ftp
+    networks:
+      - my_network
+    ports:
+      - 20-21:20-21
+      - 60000-60010:60000-60010
+    env_file:
+      - .env
+    volumes:
+      - wordpressVOL:/var/www/html
+    restart: always
+  adminer:
+    build: ./requirements/bonus/adminer
+    image: adminer
+    container_name: my_adminer
+    networks:
+      - my_network
+    ports:
+      - 8080:8080
+    restart: always
   fail2ban:
     build: ./requirements/bonus/fail2ban
     image: fail2ban
@@ -82,6 +82,13 @@ services:
       - NET_ADMIN
     volumes:
       - nginxVOL:/var/log/nginx
+    restart: always
+  staticwp:
+    build: ./requirements/bonus/staticWebPage
+    image: staticwp
+    container_name: my_staticWebPage
+    ports:
+      - 80:80
     restart: always
 
 volumes:

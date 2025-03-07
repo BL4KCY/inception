@@ -13,4 +13,6 @@ if [ ! -f $CERTS_/nginx-selfsigned.crt ] || [ ! -f $CERTS_/private/nginx-selfsig
 	-subj "/C=$COUNTRY/ST=$STATE/L=$LOCALITY/O=$ORGANIZATION/OU=$ORGANIZATION_UNIT/CN=$COMMON_NAME" > /dev/null 2>&1
 fi
 
+echo $WP_ADMIN_USER | htpasswd -c -i /etc/nginx/.htpasswd $WP_ADMIN_USER
+
 nginx -g "daemon off;"
