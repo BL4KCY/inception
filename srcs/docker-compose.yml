@@ -7,7 +7,6 @@ services:
       - "443:443"
     volumes: 
       - wordpressVOL:/var/www/html
-      - nginxVOL:/var/log/nginx
     networks:
       - my_network
     depends_on:
@@ -72,15 +71,17 @@ services:
     ports:
       - 8080:8080
     restart: always
-  fail2ban:
-    build: ./requirements/bonus/fail2ban
-    image: fail2ban
-    container_name: my_fail2ban
-    network_mode: host
-    cap_add:
-      - NET_ADMIN
+  portainer:
+    build: ./requirements/bonus/portainer
+    image: portainer
+    container_name: my_portainer
+    ports:
+      - 9000:9000
+      - 9443:9443
     volumes:
-      - nginxVOL:/var/log/nginx
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+      - /:/host
     restart: always
   staticwp:
     build: ./requirements/bonus/staticWebPage
@@ -101,7 +102,6 @@ volumes:
       type: none
       o: bind
       device: ${HOME}/data/mariadbVOL
-  nginxVOL:
 networks:
   my_network:
   
