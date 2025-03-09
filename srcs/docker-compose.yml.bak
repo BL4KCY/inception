@@ -3,13 +3,14 @@ services:
     build: ./requirements/nginx
     image: my_nginx1
     container_name: my_nginx
-    ports:
-      - "443:443"
+    # ports:
+    #   - "443:443"
     volumes: 
       - wordpressVOL:/var/www/html
       - nginxVOL:/var/log/nginx
-    networks:
-      - my_network
+    network_mode: host
+    # networks:
+      # - my_network
     depends_on:
       - WordPress
     env_file:
@@ -18,11 +19,12 @@ services:
   WordPress:
     build: ./requirements/wordpress
     image: wordpress-php-fpm
+    network_mode: host
     container_name: my_php-fpm-wordpress
     volumes:
       - wordpressVOL:/var/www/html
-    networks:
-      - my_network
+    # networks:
+      # - my_network
     env_file:
       - .env
     depends_on:
@@ -31,12 +33,13 @@ services:
     restart: always
   mariadb:
     build: ./requirements/mariadb
+    network_mode: host
     image: mariadb
     container_name: my_mariadb
     volumes:
       - mariadbVOL:/var/lib/mysql
-    networks:
-      - my_network
+    # networks:
+      # - my_network
     env_file:
       - .env
     restart: always
@@ -44,8 +47,9 @@ services:
     build: ./requirements/bonus/redis
     image: redis
     container_name: my_redis
-    networks:
-      - my_network
+    network_mode: host
+    # networks:
+      # - my_network
     env_file:
       - .env
     restart: always
@@ -53,11 +57,12 @@ services:
     build: ./requirements/bonus/ftp
     image: ftp
     container_name: my_ftp
-    networks:
-      - my_network
-    ports:
-      - 20-21:20-21
-      - 60000-60010:60000-60010
+    # networks:
+      # - my_network
+    network_mode: host
+    # ports:
+    #   - 20-21:20-21
+    #   - 60000-60010:60000-60010
     env_file:
       - .env
     volumes:
@@ -67,16 +72,19 @@ services:
     build: ./requirements/bonus/adminer
     image: adminer
     container_name: my_adminer
-    networks:
-      - my_network
-    ports:
-      - 8080:8080
+    network_mode: host
+    # networks:
+      # - my_network
+    # ports:
+      # - 8080:8080
     restart: always
   fail2ban:
     build: ./requirements/bonus/fail2ban
     image: fail2ban
     container_name: my_fail2ban
     network_mode: host
+    # networks:
+      # - my_network
     cap_add:
       - NET_ADMIN
     volumes:
@@ -85,9 +93,10 @@ services:
   staticwp:
     build: ./requirements/bonus/staticWebPage
     image: staticwp
+    network_mode: host
     container_name: my_staticWebPage
-    ports:
-      - 80:80
+    # ports:
+    #   - 80:80
     restart: always
 
 volumes:
@@ -102,6 +111,6 @@ volumes:
       o: bind
       device: ${HOME}/data/mariadbVOL
   nginxVOL:
-networks:
-  my_network:
+# networks:
+  # my_network:
   
