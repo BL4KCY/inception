@@ -1,17 +1,18 @@
-PATH = srcs/docker-compose.yml
+SHELL := /bin/sh
+COMPOSE_FILE = srcs/docker-compose.yml
 
 up:
-	$(shell mkdir  ${HOME}/data/wordpressVOL ${HOME}/data/mariadbVOL -p)
-	$(shell docker-compose -f  ${PATH} up -d --build)
+	@mkdir  ${HOME}/data/wordpressVOL ${HOME}/data/mariadbVOL -p
+	@docker compose -f  ${COMPOSE_FILE} up --build -d
 down:
-	$(shell docker-compose -f ${PATH} down)
+	@docker compose -f ${COMPOSE_FILE} down
 stop:
-	$(shell docker-compose -f ${PATH} stop)
+	@docker compose -f ${COMPOSE_FILE} stop
 start:
-	$(shell docker-compose -f ${PATH} start)
+	@docker compose -f ${COMPOSE_FILE} start
 restart:
-	$(shell docker-compose -f ${PATH} restart)
+	@docker compose -f ${COMPOSE_FILE} restart
 
 clean:
-	$(shell docker volume rm `docker volume ls -qf dangling=true`)
-	$(shell sudo rm -rf ${HOME}/data/wordpressVOL ${HOME}/data/mariadbVOL)
+	@docker volume rm `docker volume ls -qf dangling=true`
+	@sudo rm -rf ${HOME}/data/wordpressVOL ${HOME}/data/mariadbVOL
